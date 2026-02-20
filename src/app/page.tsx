@@ -30,7 +30,7 @@ export default function Home() {
       <Canvas camera={{ position: [0, 2, 10], fov: 75 }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
-        {wasmModule && <WaveView wasmModule={wasmModule} count={1000} />}
+        {wasmModule && <WaveView wasmModule={wasmModule} count={100000} />}
       </Canvas>
     </main>
   );
