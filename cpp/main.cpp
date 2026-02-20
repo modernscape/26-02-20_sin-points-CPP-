@@ -12,18 +12,27 @@ public:
     SineWaveSim(int n) : numPoints(n) {
         positions.resize(n * 3);
         for (int i = 0; i < n; i++) {
-            positions[i * 3 + 0] = (float)i * 0.1f; // x: 一定間隔
-            positions[i * 3 + 1] = 0.0f;           // y: 初期値
-            positions[i * 3 + 2] = 0.0f;           // z: 固定
+            // (i - n/2) にすることで、中心が 0 になります
+            positions[i * 3 + 0] = (float)(i - n / 2.0f) * 0.1f; 
+            positions[i * 3 + 1] = 0.0f;
+            positions[i * 3 + 2] = 0.0f;
         }
     }
 
     void update(float dt) {
         time += dt;
+        int side = std::sqrt(numPoints); // 正方形に並べる場合
         for (int i = 0; i < numPoints; i++) {
-            // y = sin(x + time)
-            float x = positions[i * 3 + 0];
-            positions[i * 3 + 1] = std::sin(x + time);
+            int ix = i % side;
+            int iz = i / side;
+            
+            float x = (ix - side / 2.0f) * 0.5f;
+            float z = (iz - side / 2.0f) * 0.5f;
+            
+            positions[i * 3 + 0] = x;
+            // XとZの両方を使って複雑な波を作る
+            positions[i * 3 + 1] = std::sin(x + time) * std::cos(z + time);
+            positions[i * 3 + 2] = z;
         }
     }
 
